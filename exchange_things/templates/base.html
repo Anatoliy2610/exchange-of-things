@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru-ru">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Платформа для обмена вещами</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body class="d-flex flex-column min-vh-100 ">
+
+    <nav class="py-2 bg-body-tertiary border-bottom">
+      <div class="container d-flex flex-wrap">
+        <ul class="nav me-auto">
+          <li class="nav-item"><a href="/" class="nav-link px-2 active" aria-current="page">Объявления</a></li>
+          <li class="nav-item"><a href="{% url 'users' %}" class="nav-link px-2">Пользователи</a></li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item"><a href="{% url 'proposal' %}" class="nav-link px-2">Предложения</a></li>
+          {% endif %}
+          <li class="nav-item nav-link link-body-emphasis px-2">
+
+              Добавить / Изменить:
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="{% url 'category' %}" class="nav-link p-0">Категория товара</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'statuses' %}" class="nav-link p-0">Статусы предложений</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'condition' %}" class="nav-link p-0">Качество товара</a></li>
+              </ul>
+          </li>
+        </ul>
+        <ul class="nav">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">Имя пользователя: {{ request.user.username }}</li>
+          <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <input class="btn btn-danger rounded-pill px-1" type="submit" value="Выход">
+            </form>
+          </a></li>
+          {% else %}
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link link-body-emphasis px-2">Вход</a></li>
+          <li class="nav-item"><a href="{% url 'user_create' %}" class="nav-link link-body-emphasis px-2">Регистрация</a></li>
+          {% endif%}
+
+        </ul>
+      </div>
+    </nav>
+ 
+  {% if messages %}
+
+  {% for message in messages %}
+  <h3>{{ message }}</h3>
+  {% endfor %}
+  {% endif %}
+
+    {% block content%}{% endblock %}
+
+  </body>
+</html>

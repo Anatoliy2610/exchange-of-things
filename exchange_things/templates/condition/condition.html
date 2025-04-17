@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container wrapper flex-grow-1">
+ 
+  <h1 class="my-4">{{ title }}</h1> 
+  <a class="btn btn-primary mb-3" href="{% url 'condition_create' %}">Создать качество товара</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название качества товара</th>
+        <th></th>
+      </tr>
+    </thead>
+  <tbody>
+
+    {% for condit in condition %}
+    <tr>
+      <td>{{ condit.pk }}</td>
+      <td>{{ condit.name }}</td>
+      <td>
+        <a href="{% url 'condition_update' condit.pk %}">Изменить</a>
+        <br>
+        <a href="{% url 'condition_delete' condit.pk %}">Удалить</a>
+
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+  </table>
+
+</div>
+
+
+{% endblock %}

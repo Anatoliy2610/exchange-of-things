@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container wrapper flex-grow-1">
+
+    <h1 class="my-4">{{ title }}</h1>
+    
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+      <h2>{{ ad.title }}</h2>
+    </div>
+
+  <div class="card-body bg-light">
+    <p>{{ ad.description }}</p>
+  <hr>
+
+  <div class="container">
+    <div class="row p-1">
+      <div class="col">Ссылка на изображение</div>
+      {% if ad.image_url %}
+      <div class="col"><a href="{{ ad.image_url }}">{{ ad.image_url }}</a></div>
+      {% else %}
+      <div class="col">Отсутствует</div>
+      {% endif %}
+    </div>
+
+    <div class="row p-1">
+      <div class="col">Категория товара</div>
+      <div class="col">{{ ad.category }}</div>
+    </div>
+
+    <div class="row p-1">
+      <div class="col">Состояние товара</div>
+      <div class="col">{{ ad.condition }}</div>
+    </div>
+    <div class="row p-1">
+      <div class="col">Дата создания объявления</div>
+      <div class="col">{{ ad.created_at|date:"d.m.Y H:i" }}</div>
+    </div>
+    <div class="row p-1">
+        <div class="col">Автор объявления</div>
+        <div class="col">{{ ad.author }}</div>
+      </div>
+    
+    <div class="row p-1">
+      <div class="col">
+        <a href="{% url 'ads_update' ad.id %}">Изменить</a>
+        <br>
+        <a href="{% url 'ads_delete' ad.id %}">Удалить</a>
+      </div>
+      {% if request.user.is_authenticated %}
+      <a class="btn btn-primary mb-3" href="{% url 'proposal_create' %}">Сделать предложение</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+  </div>
+{% endblock %}

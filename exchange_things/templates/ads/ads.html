@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container wrapper flex-grow-1">
+ 
+  <h1 class="my-4">{{ title }}</h1> 
+
+  <form method="get">
+ 
+
+    {{ filter.form }}
+    {{ form.as_p }}
+    <button class="btn btn-dark mb-5" type="submit">Поиск</button>
+    
+</form>
+
+  <a class="btn btn-primary mb-3" href="{% url 'ads_create' %}">Создать объявление</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Заголовок объявления</th>
+        <th>Описание</th>
+        <th>Картинка товара</th>
+        <th>Категория товара</th>
+        <th>Состояние товара</th>
+        <th>Дата создания объявления</th>
+        <th>Автор</th>
+      </tr>
+    </thead>
+  <tbody>
+    {% for ad in ads %}
+    <tr>
+      <td>{{ ad.pk }}</td>
+      <td><a href="{% url 'ad_show' ad.pk %}">{{ ad.title }}</a></td>
+      <td>{{ ad.description }}</td>
+      {% if ad.image_url %}<td>{{ ad.image_url }}</td>
+      {% else %}<td></td>
+      {% endif %}
+      <td>{{ ad.category }}</td>
+      <td>{{ ad.condition }}</td>
+      <td>{{ ad.created_at | date:"d.m.Y H:i" }}</td>
+      <td>{{ ad.author }}</td>
+      <td>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+
+
+<div>
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+  {% endif %}
+  {% if page_obj %}
+  <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+  {% else %}
+  <span>Страница 1 из 1</span>
+  {% endif %}
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+  {% endif %}
+</div>
+
+
+
+{% endblock %}
+

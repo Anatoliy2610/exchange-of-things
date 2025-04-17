@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container wrapper flex-grow-1">
+ 
+  <h1 class="my-4">{{ title }}</h1> 
+
+  <form method="get">
+    {{ filter.form }}
+    <button class="btn btn-dark mb-5" type="submit">Поиск</button>
+    
+</form>
+
+
+
+  <a class="btn btn-primary mb-3" href="{% url 'proposal_create' %}">Создать предложение</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Объявление отправителя</th>
+        <th>Объявление получателя</th>
+        <th>Комментарий</th>
+        <th>Статус предложения</th>
+        <th>Дата создания предложения</th>
+ 
+      </tr>
+    </thead>
+  <tbody>
+    {% if proposals %}
+    {% for prop in proposals %}
+    <tr>
+      <td>{{ prop.pk }}</td>
+      <td><a href="{% url 'proposal_show' prop.pk %}">{{ prop.ad_sender }}</a></td>
+      <td>{{ prop.ad_receiver }}</td>
+      <td>{{ prop.comment }}</td>
+      <td>{{ prop.status }}</td>
+      <td>{{ prop.created_at | date:"d.m.Y H:i" }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td></td>
+      <td></td>
+      <td>предложений нет</td>
+      <td></td>
+      <td></td>
+      <td></td>
+
+    </tr>
+    {% endif %}
+  </tbody>
+
+  </table>
+
+
+  <div>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+    {% endif %}
+    {% if page_obj %}
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    {% else %}
+    <span>Страница 1 из 1</span>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+    {% endif %}
+  </div>
+
+
+{% endblock %}
+
