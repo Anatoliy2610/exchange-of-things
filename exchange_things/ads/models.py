@@ -25,7 +25,8 @@ class Ads(models.Model):
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.PROTECT,
-    )  # user
+        null=True
+    )
 
     def __str__(self):
         return str(self.title)

@@ -31,6 +31,7 @@ class ExchangeProposal(models.Model):
         on_delete=models.PROTECT,
         verbose_name="Отправитель",
         related_name="author",
+        null=True
     )
     recipient = models.ForeignKey(
         User,
